@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Autores</h1>
+<div mat-dialog-content>
+  <div *ngFor="let autor of data">
+    <mat-form-field appearance="outline" >
+      <input matInput [placeholder]="autor.nome">
+      <mat-icon>clear</mat-icon>
+    </mat-form-field>
+  </div>
+</div>
