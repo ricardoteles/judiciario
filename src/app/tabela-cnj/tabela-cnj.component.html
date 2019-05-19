@@ -1,5 +1,10 @@
-<h1>Tabela update</h1>
-
+<header>
+  <h1>Tabela update</h1>
+  <button mat-raised-button id="btn-enviar"
+  color="primary"
+  (click)="enviarDados()">Enviar</button>
+</header>
+  
 <table mat-table
   [dataSource]="dataSource"
   class="mat-elevation-z8 ">
@@ -57,7 +62,8 @@
     <td mat-cell
       *matCellDef="let element"
       [ngClass]="{'alterado': element.vara_alterado }"
-      contenteditable>
+      contenteditable
+      [textContent]="element.vara" (input)="element.vara=$event.target.textContent">
       {{element.vara}} </td>
   </ng-container>
 
@@ -68,7 +74,9 @@
     <td mat-cell
       *matCellDef="let element"
       [ngClass]="{'alterado': element.forum_alterado }"
-      contenteditable> {{element.forum}} </td>
+      contenteditable
+      [textContent]="element.forum" (input)="element.forum=$event.target.textContent"> 
+      {{element.forum}} </td>
   </ng-container>
 
   <!-- UF Column -->
@@ -79,9 +87,10 @@
       *matCellDef="let element"
       [ngClass]="{'alterado': element.uf_alterado }">
       <mat-form-field>
-        <select matNativeControl>
+        <select matNativeControl (change)="element.uf=$event.target.value">
           <option *ngFor="let estado of estados"
-            [value]="estado">{{estado.sigla}}</option>
+            [selected]="estado.sigla ===  element.uf"
+            [value]="estado.sigla">{{estado.sigla}}</option>
         </select>
       </mat-form-field>
     </td>
@@ -150,7 +159,8 @@
     <td mat-cell
       *matCellDef="let element"
       [ngClass]="{'alterado': element.data_audiencia_alterado }"
-      contenteditable> {{element.data_audiencia}} </td>
+      contenteditable
+      [textContent]="element.data_audiencia" (input)="element.data_audiencia=$event.target.textContent"> {{element.data_audiencia}} </td>
   </ng-container>
 
   <!-- Status Column -->
@@ -161,7 +171,7 @@
       *matCellDef="let element"
       [ngClass]="{'alterado': element.status_alterado }">
       <mat-form-field>
-        <select matNativeControl>
+        <select matNativeControl (change)="element.status=$event.target.value">
           <option *ngFor="let status of statusArray"
             [value]="status">{{status}}</option>
         </select>
@@ -176,7 +186,8 @@
     <td mat-cell
       *matCellDef="let element"
       [ngClass]="{'alterado': element.obs_alterado }"
-      contenteditable> {{element.obs}} </td>
+      contenteditable
+      [textContent]="element.obs" (input)="element.obs=$event.target.textContent"> {{element.obs}} </td>
   </ng-container>
 
   <!-- Liminar Column -->
@@ -199,7 +210,8 @@
     <td mat-cell
       *matCellDef="let element"
       [ngClass]="{'alterado': element.teor_alterado }"
-      contenteditable> {{element.teor}} </td>
+      contenteditable
+      [textContent]="element.teor" (input)="element.teor=$event.target.textContent"> {{element.teor}} </td>
   </ng-container>
 
   <!-- Possui Arquivo Column -->
@@ -232,7 +244,3 @@
     *matRowDef="let row; columns: displayedColumns;">
   </tr>
 </table>
-
-<button mat-raised-button
-  color="primary"
-  (click)="enviarDados()">Enviar</button>

@@ -15,25 +15,28 @@ import {
    MatOptionModule,
    MatButtonModule,
    MatDialogModule,
-   MatIconModule
+   MatIconModule,
+   MatTooltipModule
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { EstadoService } from './services/estado.service';
 import { AutoresComponent } from './autores/autores.component';
 import { ReusComponent } from './reus/reus.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
    declarations: [
       AppComponent,
       TabelaCnjComponent,
       AutoresComponent,
-      ReusComponent
+      ReusComponent,
    ],
    imports: [
       BrowserAnimationsModule,
       BrowserModule,
       AppRoutingModule,
       HttpClientModule,
+      FormsModule,
       MatTableModule,
       MatCheckboxModule,
       MatFormFieldModule,
@@ -43,7 +46,8 @@ import { ReusComponent } from './reus/reus.component';
       MatOptionModule,
       MatButtonModule,
       MatDialogModule,
-      MatIconModule
+      MatIconModule,
+      MatTooltipModule
    ],
    entryComponents: [
       AutoresComponent,

@@ -115,4 +115,8 @@ export class TabelaCnjComponent implements OnInit {
       data: this.dataSource.data[row].partes_re
     });
   }
+
+  mudaEstado(e) {
+    console.log('certo:', e);
+  }
 }

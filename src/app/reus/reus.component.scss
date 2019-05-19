@@ -1,0 +1,21 @@
+mat-form-field {
+    width: 500px;
+    margin-right: 10px;
+  }
+  
+  header {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    align-items: baseline;
+  }
+  
+  #btn-adicionar {
+    position: absolute;
+    right: 0.9vw;
+    margin-bottom: 10px;
+  }
+  
+  .mat-dialog-content {
+    padding: 10px 24px;
+  }
