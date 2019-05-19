@@ -90,7 +90,9 @@ export class TabelaCnjComponent implements OnInit {
         possui_arquivos: row.possui_arquivos,
         segredo_justica: row.segredo_justica,
         status: row.status,
-        obs: row.obs
+        obs: row.obs,
+        partes_autoras: row.partes_autoras,
+        partes_re: row.partes_re
       });
     } else {
       // remove o elemento a ser enviado pelo metodo post em um array por meio do index
@@ -116,7 +118,22 @@ export class TabelaCnjComponent implements OnInit {
     });
   }
 
-  mudaEstado(e) {
-    console.log('certo:', e);
+  corBotaoConsulta(tipoParte, row) {
+    let btnColor = '';
+    let arrayPartes = this.dataSource.data[row];
+
+    if (tipoParte === 'autores') {
+      arrayPartes = this.dataSource.data[row].partes_autoras;
+    } else {
+      arrayPartes = this.dataSource.data[row].partes_re;
+    }
+
+    arrayPartes.forEach(elem => {
+      if (elem.nome_alterado || elem.numero_documento_alterado || elem.tipo_partes_alterado) {
+        btnColor = 'primary';
+      }
+    });
+
+    return btnColor;
   }
 }

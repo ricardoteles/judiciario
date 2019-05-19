@@ -9,7 +9,8 @@
       <mat-form-field appearance="outline">
         <input matInput
         placeholder = "Digite o nome do réu"
-          [(ngModel)]="reu.nome">
+        [ngClass]="{'alterado': reu.nome_alterado }"
+        [(ngModel)]="reu.nome">
       </mat-form-field>
       <mat-icon matTooltip="Remover réu"
         matTooltipPosition="after"

@@ -101,9 +101,10 @@
     <th mat-header-cell
       *matHeaderCellDef> Autores </th>
     <td mat-cell
-      *matCellDef="let element; let i = index"> <button mat-raised-button
-        (click)="
-      exibeAutores(i)">Consultar</button>
+      *matCellDef="let element; let i = index"> 
+      <button mat-raised-button
+        color="{{corBotaoConsulta('autores', i)}}"
+        (click)="exibeAutores(i)">Consultar</button>
     </td>
   </ng-container>
 
@@ -112,7 +113,9 @@
     <th mat-header-cell
       *matHeaderCellDef> Reus </th>
     <td mat-cell
-      *matCellDef="let element; let i = index"> <button mat-raised-button
+      *matCellDef="let element; let i = index"> 
+      <button mat-raised-button
+        color="{{corBotaoConsulta('reus', i)}}"
         (click)="exibeReus(i)">Consultar</button> </td>
   </ng-container>
 
