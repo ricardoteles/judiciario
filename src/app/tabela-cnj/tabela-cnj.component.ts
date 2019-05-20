@@ -24,6 +24,7 @@ export class TabelaCnjComponent implements OnInit {
   public dataSource;
   public selection;
   public estados: Estado[];
+  public arrayIndexCnjAlterados = [];
   public arrayCnj = [];
 
   constructor(private http: HttpClient, private estadoService: EstadoService, public dialog: MatDialog) {
@@ -69,40 +70,45 @@ export class TabelaCnjComponent implements OnInit {
   }
 
   enviarDados() {
-    console.log('enviar:', this.arrayCnj);
+    this.arrayCnj = [];
+
+    this.arrayIndexCnjAlterados.sort().forEach(index => {
+      this.arrayCnj.push({
+        cnj: this.dataSource.data[index].cnj,
+        cd_pre_cadastro: this.dataSource.data[index].cd_pre_cadastro,
+        vara: this.dataSource.data[index].vara,
+        forum: this.dataSource.data[index].forum,
+        uf: this.dataSource.data[index].uf,
+        eletronico: this.dataSource.data[index].eletronico,
+        tipo_eletronico: this.dataSource.data[index].tipo_eletronico,
+        audiencia: this.dataSource.data[index].audiencia,
+        data_audiencia: this.dataSource.data[index].data_audiencia,
+        liminar: this.dataSource.data[index].liminar,
+        teor: this.dataSource.data[index].teor,
+        possui_arquivos: this.dataSource.data[index].possui_arquivos,
+        segredo_justica: this.dataSource.data[index].segredo_justica,
+        status: this.dataSource.data[index].status,
+        obs: this.dataSource.data[index].obs,
+        partes_autoras: this.dataSource.data[index].partes_autoras,
+        partes_re: this.dataSource.data[index].partes_re
+      });
+    });
+
+    // TODO: requisição via POST
+    console.log('enviar: ', this.arrayCnj);
   }
 
-  alteraCnj(selection, row) {
+  alteraCnj(selection, row, index) {
     if (!selection.isSelected(row)) {
-      // adiciona o elemento a ser enviado pelo metodo post em um array
-      this.arrayCnj.push({
-        cnj: row.cnj,
-        cd_pre_cadastro: row.cd_pre_cadastro,
-        vara: row.vara,
-        forum: row.forum,
-        uf: row.uf,
-        eletronico: row.eletronico,
-        tipo_eletronico: row.tipo_eletronico,
-        audiencia: row.audiencia,
-        data_audiencia: row.data_audiencia,
-        liminar: row.liminar,
-        teor: row.teor,
-        possui_arquivos: row.possui_arquivos,
-        segredo_justica: row.segredo_justica,
-        status: row.status,
-        obs: row.obs,
-        partes_autoras: row.partes_autoras,
-        partes_re: row.partes_re
-      });
+      this.arrayIndexCnjAlterados.push(index);
     } else {
       // remove o elemento a ser enviado pelo metodo post em um array por meio do index
-      const index = this.arrayCnj.findIndex(elem => elem.cnj === row.cnj);
-      this.arrayCnj.splice(index, 1);
+      const indexRemovido = this.arrayIndexCnjAlterados.findIndex(elem => elem === index);
+      this.arrayIndexCnjAlterados.splice(indexRemovido, 1);
     }
   }
 
   exibeAutores(row) {
-    console.log(this.dataSource.data[row].partes_autoras);
     this.dialog.open(AutoresComponent, {
       height: '400px',
       width: '600px',
