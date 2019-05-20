@@ -13,6 +13,16 @@ export class ReusComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: Partes[]) {}
 
   ngOnInit() {
+    if (this.data.length === 0) {
+      this.data.push({
+        nome: '',
+        nome_alterado: false,
+        numero_documento: '',
+        numero_documento_alterado: false,
+        tipo_partes: 'reu',
+        tipo_partes_alterado: false,
+      });
+    }
   }
 
   removerReu(index) {

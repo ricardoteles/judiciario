@@ -1,0 +1,61 @@
+header {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    align-items: center;
+  }
+  
+  #btn-enviar {
+    position: absolute;
+    right: 0.9vw;
+  }
+  
+  table {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    margin-bottom: 20px; 
+  }
+  
+  td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
+    padding: 20px;
+  }
+  
+  /deep/ .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+    background-color: rgba(74,123,70);
+  }
+  
+  /deep/ .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+    background-color: rgba(74,123,70,.54);
+  }
+  
+  /deep/ .mat-slide-toggle-thumb {
+    background-color: rgba(123,22,20);
+  }
+  
+  /deep/ .mat-slide-toggle-bar {
+    background-color: rgba(123,22,20,.54);
+  }
+  
+  .alterado {
+    color: blue;
+    font-weight: bold;
+  }
+  
+  /deep/ .mat-slide-toggle.mat-accent.alterado.mat-checked .mat-slide-toggle-thumb {
+    background-color: rgba(0, 0, 255);
+  }
+  
+  /deep/ .mat-slide-toggle.mat-accent.alterado.mat-checked .mat-slide-toggle-bar {
+    background-color: rgba(0, 0, 255, 0.54);
+  }
+  
+  /deep/ .mat-slide-toggle.mat-accent.alterado .mat-slide-toggle-thumb {
+    background-color: rgba(0, 0, 255);
+  }
+  
+  /deep/ .mat-slide-toggle.mat-accent.alterado .mat-slide-toggle-bar {
+    background-color: rgba(0, 0, 255, 0.54);
+  }

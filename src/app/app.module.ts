@@ -23,6 +23,7 @@ import { EstadoService } from './services/estado.service';
 import { AutoresComponent } from './autores/autores.component';
 import { ReusComponent } from './reus/reus.component';
 import { FormsModule } from '@angular/forms';
+import { TabelaCnjCreateComponent } from './tabela-cnj-create/tabela-cnj-create.component';
 
 @NgModule({
    declarations: [
@@ -30,6 +31,7 @@ import { FormsModule } from '@angular/forms';
       TabelaCnjComponent,
       AutoresComponent,
       ReusComponent,
+      TabelaCnjCreateComponent,
    ],
    imports: [
       BrowserAnimationsModule,
