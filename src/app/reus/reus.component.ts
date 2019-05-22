@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Partes } from '../model/partes';
 
 @Component({
@@ -10,7 +10,8 @@ import { Partes } from '../model/partes';
 export class ReusComponent implements OnInit {
 
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Partes[]) {}
+  constructor(public dialogRef: MatDialogRef<ReusComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Partes[]) { }
 
   ngOnInit() {
     if (this.data.length === 0) {
@@ -62,6 +63,8 @@ export class ReusComponent implements OnInit {
 
     // TODO: Enviar a requisição via post para o servidor
     console.log(this.data);
+
+    this.dialogRef.close();
   }
 
 }

@@ -109,7 +109,7 @@ export class TabelaCnjComponent implements OnInit {
   }
 
   exibeAutores(row) {
-    this.dialog.open(AutoresComponent, {
+    const dialogRef = this.dialog.open(AutoresComponent, {
       height: '400px',
       width: '600px',
       data: this.dataSource.data[row].partes_autoras
@@ -117,7 +117,7 @@ export class TabelaCnjComponent implements OnInit {
   }
 
   exibeReus(row) {
-    this.dialog.open(ReusComponent, {
+    const dialogRef = this.dialog.open(ReusComponent, {
       height: '400px',
       width: '600px',
       data: this.dataSource.data[row].partes_re

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource, MatDialog } from '@angular/material';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CNJ } from '../model/cnj';
 import { DataCNJ } from '../model/dataCnj';
 import { EstadoService } from '../services/estado.service';
@@ -39,7 +39,48 @@ export class TabelaCnjCreateComponent implements OnInit {
   }
 
   enviarDados() {
-    console.log('enviar:', this.arrayCnj);
+    this.arrayCnj = [];
+
+    this.dataSource.data.forEach(elem => {
+      this.arrayCnj.push({
+        cnj: elem.cnj,
+        cd_pre_cadastro: elem.cd_pre_cadastro,
+        vara: elem.vara,
+        forum: elem.forum,
+        uf: elem.uf,
+        eletronico: elem.eletronico,
+        tipo_eletronico: elem.tipo_eletronico,
+        audiencia: elem.audiencia,
+        data_audiencia: elem.data_audiencia,
+        liminar: elem.liminar,
+        teor: elem.teor,
+        possui_arquivos: elem.possui_arquivos,
+        segredo_justica: elem.segredo_justica,
+        status: elem.status,
+        obs: elem.obs,
+        partes_autoras: elem.partes_autoras,
+        partes_re: elem.partes_re
+      });
+    });
+
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    headers.append('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    headers.append('Access-Control-Allow-Credentials', 'true');
+    headers.append('Allow-Control-Allow-Origin', '*');
+
+
+    let options = {
+      headers: headers
+    };
+
+    this.http.post('https://pacific-basin-23024.herokuapp.com/update/send-altered-cnjs', this.arrayCnj, options)
+      .subscribe(data => {
+        console.log(data);
+        console.log('array:', this.arrayCnj);
+      });
   }
 
   exibeAutores(row) {
