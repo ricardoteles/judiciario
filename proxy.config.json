@@ -1,0 +1,7 @@
+{
+    "/update/*": {
+        "target": "https://pacific-basin-23024.herokuapp.com",
+        "secure": false,
+        "logLevel": "debug"
+    }
+}

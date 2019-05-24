@@ -67,16 +67,11 @@ export class TabelaCnjCreateComponent implements OnInit {
       'Content-Type': 'application/json'
     });
 
-    headers.append('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    headers.append('Access-Control-Allow-Credentials', 'true');
-    headers.append('Allow-Control-Allow-Origin', '*');
-
-
     let options = {
       headers: headers
     };
 
-    this.http.post('https://pacific-basin-23024.herokuapp.com/update/send-altered-cnjs', this.arrayCnj, options)
+    this.http.post('/update/send-altered-cnjs', this.arrayCnj, options)
       .subscribe(data => {
         console.log(data);
         console.log('array:', this.arrayCnj);
