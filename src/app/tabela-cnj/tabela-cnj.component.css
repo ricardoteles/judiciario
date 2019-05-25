@@ -80,3 +80,7 @@ td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
 /deep/ .mat-slide-toggle.mat-accent.alterado .mat-slide-toggle-bar {
   background-color: rgba(0, 0, 255, 0.54);
 }
+
+/* /deep/ div.mat-checkbox-frame[0] { 
+  border-color: #fff; 
+} */

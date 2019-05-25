@@ -1,11 +1,12 @@
 Criticos
 
 [  ] aparecer pop up da deleção
-[  ] remover todos os reus/autores, botão continua azul
+[  ] arrumar a tabela create
+[ok] remover todos os reus/autores, botão continua azul
 [ok] o css do checkbox e do numero 
-[  ] requisicao post (campo linha_alterada....só envia o cnj e o pre cadastro pro caso false, true envia toda a linha)
+[ok] requisicao post (campo linha_alterada....só envia o cnj e o pre cadastro pro caso false, true envia toda a linha)
 
 Tabela
 
 [ok] linhas listrada
-[ok] destaque no cabeçalho da tabela
+[+/-] destaque no cabeçalho da tabela

@@ -2,7 +2,6 @@
   <h1>Tabela update</h1>
   <button mat-raised-button
     id="btn-enviar"
-    color="primary"
     (click)="enviarDados()">Enviar</button>
 </header>
 
@@ -107,7 +106,7 @@
     <td mat-cell
       *matCellDef="let element; let i = index">
       <button mat-raised-button
-        color="{{corBotaoConsulta('autores', i)}}"
+        color="{{coresBotao[i].btnAutorColor}}"
         (click)="exibeAutores(i)">Consultar</button>
     </td>
   </ng-container>
@@ -119,7 +118,7 @@
     <td mat-cell
       *matCellDef="let element; let i = index">
       <button mat-raised-button
-        color="{{corBotaoConsulta('reus', i)}}"
+        color="{{coresBotao[i].btnReuColor}}"
         (click)="exibeReus(i)">Consultar</button>
     </td>
   </ng-container>

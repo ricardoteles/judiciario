@@ -15,14 +15,7 @@ export class ReusComponent implements OnInit {
 
   ngOnInit() {
     if (this.data.length === 0) {
-      this.data.push({
-        nome: '',
-        nome_alterado: false,
-        numero_documento: '',
-        numero_documento_alterado: false,
-        tipo_partes: 'reu',
-        tipo_partes_alterado: false,
-      });
+      this.novoReu();
     }
   }
 
@@ -31,28 +24,25 @@ export class ReusComponent implements OnInit {
 
     // se todos os inputs forem removidos, deixar um input vazio
     if (this.data.length === 0) {
-      this.data.push({
-        nome: '',
-        nome_alterado: false,
-        numero_documento: '',
-        numero_documento_alterado: false,
-        tipo_partes: 'reu',
-        tipo_partes_alterado: false,
-      });
+      this.novoReu();
     }
   }
 
   adicionarReu() {
     if (this.data[this.data.length - 1].nome !== '') {
-      this.data.push({
-        nome: '',
-        nome_alterado: false,
-        numero_documento: '',
-        numero_documento_alterado: false,
-        tipo_partes: 'reu',
-        tipo_partes_alterado: false,
-      });
+      this.novoReu();
     }
+  }
+
+  novoReu(){
+    this.data.push({
+      nome: '',
+      nome_alterado: false,
+      numero_documento: '',
+      numero_documento_alterado: false,
+      tipo_partes: 'reu',
+      tipo_partes_alterado: false,
+    });
   }
 
   salvarReus() {
@@ -61,8 +51,7 @@ export class ReusComponent implements OnInit {
       this.data.splice(this.data.length - 1, 1);
     }
 
-    // TODO: Enviar a requisição via post para o servidor
-    console.log(this.data);
+    // TODO: aparecer a mensagem certeza que deseja salvar?
 
     this.dialogRef.close();
   }

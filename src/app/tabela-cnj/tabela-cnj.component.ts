@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource, MatDialog } from '@angular/material';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CNJ } from '../model/cnj';
 import { DataCNJ } from '../model/dataCnj';
 import { EstadoService } from '../services/estado.service';
@@ -25,13 +25,15 @@ export class TabelaCnjComponent implements OnInit {
   public selection;
   public estados: Estado[];
   public arrayIndexCnjAlterados = [];
-  public arrayCnj = [];
+  public enviarArrayCnj = [];
+  public coresBotao = [];
 
   constructor(private http: HttpClient, private estadoService: EstadoService, public dialog: MatDialog) {
     this.http.get('https://pacific-basin-23024.herokuapp.com/update/in-process')
       .subscribe((resp: DataCNJ) => {
         this.dataSource = new MatTableDataSource<CNJ>(resp.data);
         this.selection = new SelectionModel<CNJ>(true, []);
+        this.inicializaCorBotaoConsulta();
       }, error => {
         console.log(error);
       });
@@ -69,33 +71,60 @@ export class TabelaCnjComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
-  enviarDados() {
-    this.arrayCnj = [];
-
-    this.arrayIndexCnjAlterados.sort().forEach(index => {
-      this.arrayCnj.push({
-        cnj: this.dataSource.data[index].cnj,
-        cd_pre_cadastro: this.dataSource.data[index].cd_pre_cadastro,
-        vara: this.dataSource.data[index].vara,
-        forum: this.dataSource.data[index].forum,
-        uf: this.dataSource.data[index].uf,
-        eletronico: this.dataSource.data[index].eletronico,
-        tipo_eletronico: this.dataSource.data[index].tipo_eletronico,
-        audiencia: this.dataSource.data[index].audiencia,
-        data_audiencia: this.dataSource.data[index].data_audiencia,
-        liminar: this.dataSource.data[index].liminar,
-        teor: this.dataSource.data[index].teor,
-        possui_arquivos: this.dataSource.data[index].possui_arquivos,
-        segredo_justica: this.dataSource.data[index].segredo_justica,
-        status: this.dataSource.data[index].status,
-        obs: this.dataSource.data[index].obs,
-        partes_autoras: this.dataSource.data[index].partes_autoras,
-        partes_re: this.dataSource.data[index].partes_re
-      });
+  montaDados(index) {
+    this.enviarArrayCnj.push({
+      cnj: this.dataSource.data[index].cnj,
+      cd_pre_cadastro: this.dataSource.data[index].cd_pre_cadastro,
+      vara: this.dataSource.data[index].vara,
+      forum: this.dataSource.data[index].forum,
+      uf: this.dataSource.data[index].uf,
+      eletronico: this.dataSource.data[index].eletronico,
+      tipo_eletronico: this.dataSource.data[index].tipo_eletronico,
+      audiencia: this.dataSource.data[index].audiencia,
+      data_audiencia: this.dataSource.data[index].data_audiencia,
+      liminar: this.dataSource.data[index].liminar,
+      teor: this.dataSource.data[index].teor,
+      possui_arquivos: this.dataSource.data[index].possui_arquivos,
+      segredo_justica: this.dataSource.data[index].segredo_justica,
+      status: this.dataSource.data[index].status,
+      obs: this.dataSource.data[index].obs,
+      partes_autoras: this.dataSource.data[index].partes_autoras,
+      partes_re: this.dataSource.data[index].partes_re,
+      linha_alterada: true
     });
+  }
+
+  enviarDados() {
+    this.enviarArrayCnj = [];
+
+    for (let linha = 0; linha < this.dataSource.data.length; linha++) {
+      if (this.arrayIndexCnjAlterados.includes(linha)) {
+        this.montaDados(linha);
+      } else {
+        this.enviarArrayCnj.push({
+          cnj: this.dataSource.data[linha].cnj,
+          cd_pre_cadastro: this.dataSource.data[linha].cd_pre_cadastro
+        });
+      }
+    }
 
     // TODO: requisição via POST
-    console.log('enviar: ', this.arrayCnj);
+    this.metodoPOST(this.enviarArrayCnj)
+  }
+
+  metodoPOST(dados) {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    let options = {
+      headers: headers
+    };
+
+    this.http.post('https://pacific-basin-23024.herokuapp.com/update/send-altered-cnjs', dados, options)
+      .subscribe(data => {
+        console.log(data);
+      });
   }
 
   alteraCnj(selection, row, index) {
@@ -124,22 +153,27 @@ export class TabelaCnjComponent implements OnInit {
     });
   }
 
-  corBotaoConsulta(tipoParte, row) {
-    let btnColor = '';
-    let arrayPartes = this.dataSource.data[row];
+  inicializaCorBotaoConsulta() {
+    this.dataSource.data.forEach(linhaTabela => {
+      let btnAutorColor = '';
+      let btnReuColor = '';
 
-    if (tipoParte === 'autores') {
-      arrayPartes = this.dataSource.data[row].partes_autoras;
-    } else {
-      arrayPartes = this.dataSource.data[row].partes_re;
-    }
+      linhaTabela.partes_autoras.forEach(autor => {
+        if (autor.nome_alterado || autor.numero_documento_alterado || autor.tipo_partes_alterado) {
+          btnAutorColor = 'primary';
+        }
+      });
 
-    arrayPartes.forEach(elem => {
-      if (elem.nome_alterado || elem.numero_documento_alterado || elem.tipo_partes_alterado) {
-        btnColor = 'primary';
-      }
+      linhaTabela.partes_re.forEach(reu => {
+        if (reu.nome_alterado || reu.numero_documento_alterado || reu.tipo_partes_alterado) {
+          btnReuColor = 'primary';
+        }
+      });
+
+      this.coresBotao.push({
+        btnAutorColor: btnAutorColor,
+        btnReuColor: btnReuColor,
+      });
     });
-
-    return btnColor;
   }
 }
