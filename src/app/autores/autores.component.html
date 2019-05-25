@@ -1,22 +1,23 @@
 <header>
-    <h1 mat-dialog-title>Autores</h1>
-    <button mat-raised-button
-      id="btn-adicionar"
-      (click)="adicionarAutor()">Adicionar</button>
-  </header>
-  <div mat-dialog-content *ngIf="data">
-    <div *ngFor="let autor of data; let i = index">
-      <mat-form-field appearance="outline">
-        <input matInput
-        placeholder = "Digite o nome do réu"
-          [(ngModel)]="autor.nome">
-      </mat-form-field>
-      <mat-icon matTooltip="Remover autor"
-        matTooltipPosition="after"
-        (click)="removerAutor(i)">clear</mat-icon>
-    </div>
-  
-    <button mat-raised-button
-      (click)="salvarAutores()">Salvar</button>
+  <h1 mat-dialog-title>Autores</h1>
+  <button mat-raised-button
+    id="btn-adicionar"
+    (click)="adicionarAutor()">Adicionar</button>
+</header>
+<div mat-dialog-content
+  *ngIf="data">
+  <div *ngFor="let autor of data; let i = index">
+    <mat-form-field appearance="outline">
+      <input matInput
+        placeholder="Digite o nome do réu"
+        [ngClass]="{'alterado': reu.nome_alterado }"
+        [(ngModel)]="autor.nome">
+    </mat-form-field>
+    <mat-icon matTooltip="Remover autor"
+      matTooltipPosition="after"
+      (click)="removerAutor('autor', i)">clear</mat-icon>
   </div>
-  
+
+  <button mat-raised-button
+    (click)="salvarAutores()">Salvar</button>
+</div>

@@ -19,3 +19,8 @@ header {
 .mat-dialog-content {
   padding: 10px 24px;
 }
+
+.alterado {
+  color: blue;
+  font-weight: bold;
+}

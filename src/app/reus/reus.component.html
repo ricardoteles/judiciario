@@ -1,23 +1,23 @@
 <header>
-    <h1 mat-dialog-title>Reus</h1>
-    <button mat-raised-button
-      id="btn-adicionar"
-      (click)="adicionarReu()">Adicionar</button>
-  </header>
-  <div mat-dialog-content *ngIf="data">
-    <div *ngFor="let reu of data; let i = index">
-      <mat-form-field appearance="outline">
-        <input matInput
-        placeholder = "Digite o nome do réu"
+  <h1 mat-dialog-title>Reus</h1>
+  <button mat-raised-button
+    id="btn-adicionar"
+    (click)="adicionarReu()">Adicionar</button>
+</header>
+<div mat-dialog-content
+  *ngIf="data">
+  <div *ngFor="let reu of data; let i = index">
+    <mat-form-field appearance="outline">
+      <input matInput
+        placeholder="Digite o nome do réu"
         [ngClass]="{'alterado': reu.nome_alterado }"
         [(ngModel)]="reu.nome">
-      </mat-form-field>
-      <mat-icon matTooltip="Remover réu"
-        matTooltipPosition="after"
-        (click)="removerReu(i)">clear</mat-icon>
-    </div>
-  
-    <button mat-raised-button
-      (click)="salvarReus()">Salvar</button>
+    </mat-form-field>
+    <mat-icon matTooltip="Remover réu"
+      matTooltipPosition="after"
+      (click)="removerReu('réu', i)">clear</mat-icon>
   </div>
-  
+
+  <button mat-raised-button
+    (click)="salvarReus()">Salvar</button>
+</div>

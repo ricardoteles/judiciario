@@ -1,0 +1,19 @@
+.bottom-sheet {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    padding: 10px 20px;
+}
+.bottom-sheet div {
+    flex: 1;
+    color: white;
+}
+button {
+    margin-left: 5px;
+}
+
+/deep/ .mat-bottom-sheet-container {
+    padding: 0 !important;
+    background-color: rgba(62,68,74);
+}

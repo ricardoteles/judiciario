@@ -1,12 +1,9 @@
 Criticos
 
-[  ] aparecer pop up da deleção
 [  ] arrumar a tabela create
+[+/-] destaque no cabeçalho da tabela
+[ok] aparecer pop up da deleção
 [ok] remover todos os reus/autores, botão continua azul
 [ok] o css do checkbox e do numero 
 [ok] requisicao post (campo linha_alterada....só envia o cnj e o pre cadastro pro caso false, true envia toda a linha)
-
-Tabela
-
-[ok] linhas listrada
-[+/-] destaque no cabeçalho da tabela
+[ok] linhas listrada da tabela
