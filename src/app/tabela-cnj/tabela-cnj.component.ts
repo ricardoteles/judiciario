@@ -103,7 +103,8 @@ export class TabelaCnjComponent implements OnInit {
       } else {
         this.enviarArrayCnj.push({
           cnj: this.dataSource.data[linha].cnj,
-          cd_pre_cadastro: this.dataSource.data[linha].cd_pre_cadastro
+          cd_pre_cadastro: this.dataSource.data[linha].cd_pre_cadastro,
+          linha_alterada: false
         });
       }
     }
@@ -141,7 +142,8 @@ export class TabelaCnjComponent implements OnInit {
     const dialogRef = this.dialog.open(AutoresComponent, {
       height: '400px',
       width: '600px',
-      data: this.dataSource.data[row].partes_autoras
+      data: this.dataSource.data[row].partes_autoras,
+      disableClose: true
     });
   }
 
@@ -149,7 +151,8 @@ export class TabelaCnjComponent implements OnInit {
     const dialogRef = this.dialog.open(ReusComponent, {
       height: '400px',
       width: '600px',
-      data: this.dataSource.data[row].partes_re
+      data: this.dataSource.data[row].partes_re,
+      disableClose: true
     });
   }
 

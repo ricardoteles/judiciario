@@ -1,9 +1,22 @@
 Criticos
 
-[  ] arrumar a tabela create
 [+/-] destaque no cabeçalho da tabela
+[ok] arrumar a tabela create
 [ok] aparecer pop up da deleção
 [ok] remover todos os reus/autores, botão continua azul
 [ok] o css do checkbox e do numero 
 [ok] requisicao post (campo linha_alterada....só envia o cnj e o pre cadastro pro caso false, true envia toda a linha)
 [ok] linhas listrada da tabela
+
+[ok] (bug) salvar reus/autores apenas quando clicar no botão
+[ok] (bug) ao adicionar reus/autores scroll aparece duas vezes
+[  ] (bug) ao clicar em "check all" enviar os dados corretamente
+[  ] (bug) ao adicionar reus/autores scroll fica no fim da tela
+[ok] deixar os campos liminar e segredo de justiça com false (ver como vai ficar com a nova url)
+[  ] colocar o checkbox na tabela create
+[  ] mostrar as mensagens de sucesso e erro do servidor
+
+[  ] colocar as duas colunas e o cabeçalho com cores de cinza mais clara 
+[  ] cor do chekbox branca e borda de alguma cor
+[  ] colocar o botão enviar um pouco pra baixo do título
+[  ] fixar o cnj e o pre_cadastro na tabela

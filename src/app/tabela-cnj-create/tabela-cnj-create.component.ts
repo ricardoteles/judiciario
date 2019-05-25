@@ -82,7 +82,8 @@ export class TabelaCnjCreateComponent implements OnInit {
     const dialogRef = this.dialog.open(AutoresComponent, {
       height: '400px',
       width: '600px',
-      data: []
+      data: [],
+      disableClose: true
     });
   }
 
@@ -90,7 +91,8 @@ export class TabelaCnjCreateComponent implements OnInit {
     const dialogRef = this.dialog.open(ReusComponent, {
       height: '400px',
       width: '600px',
-      data: []
+      data: [],
+      disableClose: true
     });
   }
 }

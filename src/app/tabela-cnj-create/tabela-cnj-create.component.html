@@ -1,210 +1,218 @@
 <header>
-    <h1>Tabela create</h1>
-    <button mat-raised-button id="btn-enviar"
+  <h1>Tabela create</h1>
+  <button mat-raised-button
+    id="btn-enviar"
     color="primary"
     (click)="enviarDados()">Enviar</button>
-  </header>
-    
-  <table mat-table
-    [dataSource]="dataSource"
-    class="mat-elevation-z8 ">
-  
-    <!-- Position Column -->
-    <ng-container matColumnDef="position"
-      sticky>
-      <th mat-header-cell
-        *matHeaderCellDef> No. </th>
-      <td mat-cell
-        *matCellDef="let element; let i = index">{{i+1}}</td>
-    </ng-container>
-  
-    <!-- CNJ Column -->
-    <ng-container matColumnDef="cnj">
-      <th mat-header-cell
-        *matHeaderCellDef> CNJ </th>
-      <td mat-cell
-        *matCellDef="let element"> {{element.cnj}} </td>
-    </ng-container>
-  
-    <!-- Pre Cadastro Column -->
-    <ng-container matColumnDef="cd_pre_cadastro">
-      <th mat-header-cell
-        *matHeaderCellDef> Pre Cadastro </th>
-      <td mat-cell
-        *matCellDef="let element"> {{element.cd_pre_cadastro}} </td>
-    </ng-container>
-  
-    <!-- Vara Column -->
-    <ng-container matColumnDef="vara">
-      <th mat-header-cell
-        *matHeaderCellDef> Vara </th>
-      <td mat-cell
-        *matCellDef="let element"
-        contenteditable
-        [textContent]="" (input)="element.vara=$event.target.textContent">
-       </td>
-    </ng-container>
-  
-    <!-- Forum Column -->
-    <ng-container matColumnDef="forum">
-      <th mat-header-cell
-        *matHeaderCellDef> Forum </th>
-      <td mat-cell
-        *matCellDef="let element"
-        contenteditable
-        [textContent]="" (input)="element.forum=$event.target.textContent"> 
-        </td>
-    </ng-container>
-  
-    <!-- UF Column -->
-    <ng-container matColumnDef="uf">
-      <th mat-header-cell
-        *matHeaderCellDef> UF </th>
-      <td mat-cell
-        *matCellDef="let element">
-        <mat-form-field>
-          <select matNativeControl (change)="element.uf=$event.target.value">
-            <option *ngFor="let estado of estados"
-              [selected]="estado.sigla ===  element.uf"
-              [value]="estado.sigla">{{estado.sigla}}</option>
-          </select>
-        </mat-form-field>
-      </td>
-    </ng-container>
-  
-    <!-- Autores Column -->
-    <ng-container matColumnDef="autores">
-      <th mat-header-cell
-        *matHeaderCellDef> Autores </th>
-      <td mat-cell
-        *matCellDef="let element; let i = index"> 
-        <button mat-raised-button
-          (click)="exibeAutores(i)">Consultar</button>
-      </td>
-    </ng-container>
-  
-    <!-- Reus Column -->
-    <ng-container matColumnDef="reus">
-      <th mat-header-cell
-        *matHeaderCellDef> Reus </th>
-      <td mat-cell
-        *matCellDef="let element; let i = index"> 
-        <button mat-raised-button
-          (click)="exibeReus(i)">Consultar</button> </td>
-    </ng-container>
-  
-    <!-- Eletronico Column -->
-    <ng-container matColumnDef="eletronico">
-      <th mat-header-cell
-        *matHeaderCellDef> Eletronico </th>
-      <td mat-cell
-        *matCellDef="let element">
-        <mat-slide-toggle [checked]="true"
-          (change)="element.eletronico = !element.eletronico"> </mat-slide-toggle>
-      </td>
-    </ng-container>
-  
-    <!-- Tipo Eletronico Column -->
-    <ng-container matColumnDef="tipo_eletronico">
-      <th mat-header-cell
-        *matHeaderCellDef> Tipo Eletronico </th>
-      <td mat-cell
-        *matCellDef="let element"> </td>
-    </ng-container>
-  
-    <!-- Audiencia Cadastro Column -->
-    <ng-container matColumnDef="audiencia">
-      <th mat-header-cell
-        *matHeaderCellDef> Audiencia </th>
-      <td mat-cell
-        *matCellDef="let element">
-        <mat-slide-toggle [checked]="true"
-          (change)="element.audiencia = !element.audiencia"> </mat-slide-toggle>
-      </td>
-    </ng-container>
-  
-    <!-- Data Audiencia Column -->
-    <ng-container matColumnDef="data_audiencia">
-      <th mat-header-cell
-        *matHeaderCellDef> Data Audiencia </th>
-      <td mat-cell
-        *matCellDef="let element"
-        contenteditable
-        [textContent]="" (input)="element.data_audiencia=$event.target.textContent"></td>
-    </ng-container>
-  
-    <!-- Status Column -->
-    <ng-container matColumnDef="status">
-      <th mat-header-cell
-        *matHeaderCellDef> Status </th>
-      <td mat-cell
-        *matCellDef="let element">
-        <mat-form-field>
-          <select matNativeControl (change)="element.status=$event.target.value">
-            <option *ngFor="let status of statusArray"
-              [value]="status">{{status}}</option>
-          </select>
-        </mat-form-field>
-      </td>
-    </ng-container>
-  
-    <!-- Obs Column -->
-    <ng-container matColumnDef="obs">
-      <th mat-header-cell
-        *matHeaderCellDef> Obs </th>
-      <td mat-cell
-        *matCellDef="let element"
-        contenteditable
-        [textContent]="" (input)="element.obs=$event.target.textContent"> </td>
-    </ng-container>
-  
-    <!-- Liminar Column -->
-    <ng-container matColumnDef="liminar">
-      <th mat-header-cell
-        *matHeaderCellDef> Liminar </th>
-      <td mat-cell
-        *matCellDef="let element">
-        <mat-slide-toggle [checked]="true"
-          (change)="element.liminar = !element.liminar"> </mat-slide-toggle>
-      </td>
-    </ng-container>
-  
-    <!-- Teor Column -->
-    <ng-container matColumnDef="teor">
-      <th mat-header-cell
-        *matHeaderCellDef> Teor </th>
-      <td mat-cell
-        *matCellDef="let element"
-        contenteditable
-        [textContent]="" (input)="element.teor=$event.target.textContent"> </td>
-    </ng-container>
-  
-    <!-- Possui Arquivo Column -->
-    <ng-container matColumnDef="possui_arquivos">
-      <th mat-header-cell
-        *matHeaderCellDef> Possui Arquivo </th>
-      <td mat-cell
-        *matCellDef="let element">
-        <mat-slide-toggle [checked]="true"
-          (change)="element.possui_arquivos = !element.possui_arquivos"> </mat-slide-toggle>
-      </td>
-    </ng-container>
-  
-    <!-- Segredo Justica Column -->
-    <ng-container matColumnDef="segredo_justica">
-      <th mat-header-cell
-        *matHeaderCellDef> Segredo Justica </th>
-      <td mat-cell
-        *matCellDef="let element">
-        <mat-slide-toggle [checked]="true"
-          (change)="element.segredo_justica = !element.segredo_justica"> </mat-slide-toggle>
-      </td>
-    </ng-container>
-  
-    <tr mat-header-row
-      *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row
-      *matRowDef="let row; columns: displayedColumns;">
-    </tr>
-  </table>
-  
+</header>
+
+<table mat-table
+  [dataSource]="dataSource"
+  class="mat-elevation-z8 ">
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="position"
+    sticky>
+    <th mat-header-cell
+      *matHeaderCellDef> No. </th>
+    <td mat-cell
+      *matCellDef="let element; let i = index">{{i+1}}</td>
+  </ng-container>
+
+  <!-- CNJ Column -->
+  <ng-container matColumnDef="cnj">
+    <th mat-header-cell
+      *matHeaderCellDef> CNJ </th>
+    <td mat-cell
+      *matCellDef="let element"> {{element.cnj}} </td>
+  </ng-container>
+
+  <!-- Pre Cadastro Column -->
+  <ng-container matColumnDef="cd_pre_cadastro">
+    <th mat-header-cell
+      *matHeaderCellDef> Pre Cadastro </th>
+    <td mat-cell
+      *matCellDef="let element"> {{element.cd_pre_cadastro}} </td>
+  </ng-container>
+
+  <!-- Vara Column -->
+  <ng-container matColumnDef="vara">
+    <th mat-header-cell
+      *matHeaderCellDef> Vara </th>
+    <td mat-cell
+      *matCellDef="let element"
+      contenteditable
+      [textContent]=""
+      (input)="element.vara=$event.target.textContent">
+    </td>
+  </ng-container>
+
+  <!-- Forum Column -->
+  <ng-container matColumnDef="forum">
+    <th mat-header-cell
+      *matHeaderCellDef> Forum </th>
+    <td mat-cell
+      *matCellDef="let element"
+      contenteditable
+      [textContent]=""
+      (input)="element.forum=$event.target.textContent">
+    </td>
+  </ng-container>
+
+  <!-- UF Column -->
+  <ng-container matColumnDef="uf">
+    <th mat-header-cell
+      *matHeaderCellDef> UF </th>
+    <td mat-cell
+      *matCellDef="let element">
+      <mat-form-field>
+        <select matNativeControl
+          (change)="element.uf=$event.target.value">
+          <option *ngFor="let estado of estados"
+            [selected]="estado.sigla ===  element.uf"
+            [value]="estado.sigla">{{estado.sigla}}</option>
+        </select>
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <!-- Autores Column -->
+  <ng-container matColumnDef="autores">
+    <th mat-header-cell
+      *matHeaderCellDef> Autores </th>
+    <td mat-cell
+      *matCellDef="let element; let i = index">
+      <button mat-raised-button
+        (click)="exibeAutores(i)">Consultar</button>
+    </td>
+  </ng-container>
+
+  <!-- Reus Column -->
+  <ng-container matColumnDef="reus">
+    <th mat-header-cell
+      *matHeaderCellDef> Reus </th>
+    <td mat-cell
+      *matCellDef="let element; let i = index">
+      <button mat-raised-button
+        (click)="exibeReus(i)">Consultar</button>
+    </td>
+  </ng-container>
+
+  <!-- Eletronico Column -->
+  <ng-container matColumnDef="eletronico">
+    <th mat-header-cell
+      *matHeaderCellDef> Eletronico </th>
+    <td mat-cell
+      *matCellDef="let element">
+      <mat-slide-toggle [checked]="true"
+        (change)="element.eletronico = !element.eletronico"> </mat-slide-toggle>
+    </td>
+  </ng-container>
+
+  <!-- Tipo Eletronico Column -->
+  <ng-container matColumnDef="tipo_eletronico">
+    <th mat-header-cell
+      *matHeaderCellDef> Tipo Eletronico </th>
+    <td mat-cell
+      *matCellDef="let element"> </td>
+  </ng-container>
+
+  <!-- Audiencia Cadastro Column -->
+  <ng-container matColumnDef="audiencia">
+    <th mat-header-cell
+      *matHeaderCellDef> Audiencia </th>
+    <td mat-cell
+      *matCellDef="let element">
+      <mat-slide-toggle [checked]="true"
+        (change)="element.audiencia = !element.audiencia"> </mat-slide-toggle>
+    </td>
+  </ng-container>
+
+  <!-- Data Audiencia Column -->
+  <ng-container matColumnDef="data_audiencia">
+    <th mat-header-cell
+      *matHeaderCellDef> Data Audiencia </th>
+    <td mat-cell
+      *matCellDef="let element"
+      contenteditable
+      [textContent]=""
+      (input)="element.data_audiencia=$event.target.textContent"></td>
+  </ng-container>
+
+  <!-- Status Column -->
+  <ng-container matColumnDef="status">
+    <th mat-header-cell
+      *matHeaderCellDef> Status </th>
+    <td mat-cell
+      *matCellDef="let element">
+      <mat-form-field>
+        <select matNativeControl
+          (change)="element.status=$event.target.value">
+          <option *ngFor="let status of statusArray"
+            [value]="status">{{status}}</option>
+        </select>
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <!-- Obs Column -->
+  <ng-container matColumnDef="obs">
+    <th mat-header-cell
+      *matHeaderCellDef> Obs </th>
+    <td mat-cell
+      *matCellDef="let element"
+      contenteditable
+      [textContent]=""
+      (input)="element.obs=$event.target.textContent"> </td>
+  </ng-container>
+
+  <!-- Liminar Column -->
+  <ng-container matColumnDef="liminar">
+    <th mat-header-cell
+      *matHeaderCellDef> Liminar </th>
+    <td mat-cell
+      *matCellDef="let element">
+      <mat-slide-toggle [checked]="true"
+        (change)="element.liminar = !element.liminar"> </mat-slide-toggle>
+    </td>
+  </ng-container>
+
+  <!-- Teor Column -->
+  <ng-container matColumnDef="teor">
+    <th mat-header-cell
+      *matHeaderCellDef> Teor </th>
+    <td mat-cell
+      *matCellDef="let element"
+      contenteditable
+      [textContent]=""
+      (input)="element.teor=$event.target.textContent"> </td>
+  </ng-container>
+
+  <!-- Possui Arquivo Column -->
+  <ng-container matColumnDef="possui_arquivos">
+    <th mat-header-cell
+      *matHeaderCellDef> Possui Arquivo </th>
+    <td mat-cell
+      *matCellDef="let element">
+      <mat-slide-toggle [checked]="false"
+        (change)="element.possui_arquivos = !element.possui_arquivos"> </mat-slide-toggle>
+    </td>
+  </ng-container>
+
+  <!-- Segredo Justica Column -->
+  <ng-container matColumnDef="segredo_justica">
+    <th mat-header-cell
+      *matHeaderCellDef> Segredo Justica </th>
+    <td mat-cell
+      *matCellDef="let element">
+      <mat-slide-toggle [checked]="false"
+        (change)="element.segredo_justica = !element.segredo_justica"> </mat-slide-toggle>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row
+    *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row
+    *matRowDef="let row; columns: displayedColumns;">
+  </tr>
+</table>
