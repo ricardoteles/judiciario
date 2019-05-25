@@ -25,3 +25,8 @@ header {
   color: blue;
   font-weight: bold;
 }
+
+.btn-salvar {
+  display: flex;
+  justify-content: center;
+}

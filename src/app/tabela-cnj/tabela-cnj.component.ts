@@ -50,6 +50,15 @@ export class TabelaCnjComponent implements OnInit {
     if (this.selection) {
       const numSelected = this.selection.selected.length;
       const numRows = this.dataSource.data.length;
+
+      if (numSelected === numRows) {
+        this.arrayIndexCnjAlterados = [];
+
+        for (let i = 0; i < numSelected; i++) {
+          this.arrayIndexCnjAlterados.push(i);
+        }
+      }
+
       return numSelected === numRows;
     } else {
       return false;
@@ -109,7 +118,6 @@ export class TabelaCnjComponent implements OnInit {
       }
     }
 
-    // TODO: requisição via POST
     this.metodoPOST(this.enviarArrayCnj)
   }
 
