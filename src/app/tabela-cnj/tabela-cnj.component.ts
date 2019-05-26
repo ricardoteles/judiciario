@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatTableDataSource, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatDialog, MatSnackBar } from '@angular/material';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CNJ } from '../model/cnj';
 import { DataCNJ } from '../model/dataCnj';
@@ -28,7 +28,8 @@ export class TabelaCnjComponent implements OnInit {
   public enviarArrayCnj = [];
   public coresBotao = [];
 
-  constructor(private http: HttpClient, private estadoService: EstadoService, public dialog: MatDialog) {
+  constructor(private http: HttpClient, private estadoService: EstadoService,
+    public dialog: MatDialog, private snackBar: MatSnackBar) {
     this.http.get('https://pacific-basin-23024.herokuapp.com/update/in-process')
       .subscribe((resp: DataCNJ) => {
         this.dataSource = new MatTableDataSource<CNJ>(resp.data);
@@ -50,15 +51,6 @@ export class TabelaCnjComponent implements OnInit {
     if (this.selection) {
       const numSelected = this.selection.selected.length;
       const numRows = this.dataSource.data.length;
-
-      if (numSelected === numRows) {
-        this.arrayIndexCnjAlterados = [];
-
-        for (let i = 0; i < numSelected; i++) {
-          this.arrayIndexCnjAlterados.push(i);
-        }
-      }
-
       return numSelected === numRows;
     } else {
       return false;
@@ -67,9 +59,17 @@ export class TabelaCnjComponent implements OnInit {
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
+    if (this.isAllSelected()) {
+      this.arrayIndexCnjAlterados = [];
+      this.selection.clear();
+    } else {
+      let i = 0;
+
+      this.dataSource.data.forEach(row => {
+        this.selection.select(row);
+        this.arrayIndexCnjAlterados.push(i++);
+      });
+    }
   }
 
   /** The label for the checkbox on the passed row */
@@ -132,7 +132,15 @@ export class TabelaCnjComponent implements OnInit {
 
     this.http.post('https://pacific-basin-23024.herokuapp.com/update/send-altered-cnjs', dados, options)
       .subscribe(data => {
-        console.log(data);
+        // console.log(data);
+        this.snackBar.open("Dados enviados com sucesso!", undefined, {
+          duration: 5000,
+        });
+      }, error => {
+        // console.log(error.status);
+        this.snackBar.open("Dados não foram enviados. Por favor, tente mais tarde!", undefined, {
+          duration: 5000,
+        });
       });
   }
 

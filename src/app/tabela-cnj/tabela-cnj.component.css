@@ -99,3 +99,8 @@ td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
 /deep/ div.mat-checkbox-frame { 
   border-color: #fff; 
 }
+
+/deep/ .mat-simple-snackbar {
+  font-weight: bold;
+  font-size: 18px;
+}

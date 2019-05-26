@@ -10,13 +10,13 @@ Criticos
 
 [ok] (bug) salvar reus/autores apenas quando clicar no botão
 [ok] (bug) ao adicionar reus/autores scroll aparece duas vezes
-[ok] (bug) ao clicar em "check all" enviar os dados corretamente
 [ok] deixar os campos liminar e segredo de justiça com false (ver como vai ficar com a nova url)
 [ok] colocar as duas colunas e o cabeçalho com cores de cinza mais clara 
 [ok] fixar o cnj e o pre_cadastro na tabela
 
 [  ] (bug) ao adicionar reus/autores scroll fica no fim da tela
-[  ] colocar o checkbox na tabela create
-[  ] mostrar as mensagens de sucesso e erro do servidor
-[ve] colocar o botão enviar um pouco pra baixo do título
-[ve] cor do chekbox branca e borda de alguma cor
+[  ] colocar o botão enviar um pouco pra baixo do título
+[  ] cor do chekbox branca e borda de alguma cor
+[ok] colocar o checkbox na tabela create
+[ok] (bug) ao clicar em "check all" enviar os dados corretamente
+[ok] mostrar as mensagens de sucesso e erro do servidor
