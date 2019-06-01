@@ -135,7 +135,7 @@ export class TabelaCnjUpdateComponent implements OnInit {
           duration: 5000,
         });
 
-        this.obterDadosDoServidor();
+        location.reload();
 
       }, error => {
         console.log(error);
@@ -149,7 +149,11 @@ export class TabelaCnjUpdateComponent implements OnInit {
     this.http.get('https://pacific-basin-23024.herokuapp.com/update/in-process')
       .subscribe((resp: DataCNJ) => {
         this.dataSource = new MatTableDataSource<CNJ>(resp.data);
-        this.dataSourceOriginal = JSON.parse(JSON.stringify(this.dataSource.data));
+
+        if (this.dataSource) {
+          this.dataSourceOriginal = JSON.parse(JSON.stringify(this.dataSource.data));
+        }
+
         this.selection = new SelectionModel<CNJ>(true, []);
         this.inicializaCorBotaoConsulta();
       }, error => {
@@ -186,26 +190,28 @@ export class TabelaCnjUpdateComponent implements OnInit {
   }
 
   inicializaCorBotaoConsulta() {
-    this.dataSource.data.forEach(linhaTabela => {
-      let btnAutorColor = '';
-      let btnReuColor = '';
+    if (this.dataSource) {
+      this.dataSource.data.forEach(linhaTabela => {
+        let btnAutorColor = '';
+        let btnReuColor = '';
 
-      linhaTabela.partes_autoras.forEach(autor => {
-        if (autor.nome_alterado || autor.numero_documento_alterado || autor.tipo_partes_alterado) {
-          btnAutorColor = 'primary';
-        }
-      });
+        linhaTabela.partes_autoras.forEach(autor => {
+          if (autor.nome_alterado === true) {
+            btnAutorColor = 'primary';
+          }
+        });
 
-      linhaTabela.partes_re.forEach(reu => {
-        if (reu.nome_alterado || reu.numero_documento_alterado || reu.tipo_partes_alterado) {
-          btnReuColor = 'primary';
-        }
-      });
+        linhaTabela.partes_re.forEach(reu => {
+          if (reu.nome_alterado === true) {
+            btnReuColor = 'primary';
+          }
+        });
 
-      this.coresBotao.push({
-        btnAutorColor: btnAutorColor,
-        btnReuColor: btnReuColor,
+        this.coresBotao.push({
+          btnAutorColor: btnAutorColor,
+          btnReuColor: btnReuColor,
+        });
       });
-    });
+    }
   }
 }

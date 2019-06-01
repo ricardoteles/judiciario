@@ -1,7 +1,6 @@
 Criticos
 
 [ok] destaque no cabeçalho da tabela
-[ok] arrumar a tabela create
 [ok] aparecer pop up da deleção
 [ok] remover todos os reus/autores, botão continua azul
 [ok] o css do checkbox e do numero 
@@ -14,9 +13,17 @@ Criticos
 [ok] colocar as duas colunas e o cabeçalho com cores de cinza mais clara 
 [ok] fixar o cnj e o pre_cadastro na tabela
 
-[  ] (bug) ao adicionar reus/autores scroll fica no fim da tela
-[  ] colocar o botão enviar um pouco pra baixo do título
-[  ] cor do chekbox branca e borda de alguma cor
+[ok] colocar o botão enviar um pouco pra baixo do título
+[ok] cor do chekbox branca e borda de alguma cor
 [ok] colocar o checkbox na tabela create
 [ok] (bug) ao clicar em "check all" enviar os dados corretamente
 [ok] mostrar as mensagens de sucesso e erro do servidor
+
+[ok] renomear os arquivos da tabela update
+[ok] reestruturação dos diretórios do projeto
+
+[ok] (bug) arrumar o branco no head da tabela
+[ok] fazer o tipo eletrônico [E-SAJ, Projudi, Pje, Themis, Tucujuris,  outros, TRE-(sigla dos estados), TRF-1, TRF-3, TRT-1 ao TRT-24]
+[testar] substituir os endpoints da tabela create
+[  ] arrumar a tabela create
+[  ] ao adicionar reus/autores scroll fica no fim da tela

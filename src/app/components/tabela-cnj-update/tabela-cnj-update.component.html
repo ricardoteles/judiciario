@@ -4,10 +4,12 @@
 <div id="btn-enviar">
 
   <button mat-raised-button
+    *ngIf="dataSource"
     (click)="enviarDados()">Enviar</button>
 </div>
 
 <table mat-table
+  *ngIf="dataSource;else naoHaDados"
   [dataSource]="dataSource"
   class="mat-elevation-z8 ">
 
@@ -277,3 +279,9 @@
     *matRowDef="let row; columns: displayedColumns;">
   </tr>
 </table>
+
+<ng-template #naoHaDados>
+  <p class="sem-dados">
+    Não há dados disponíveis!
+  </p>
+</ng-template>

@@ -1,11 +1,15 @@
 <header>
   <h1>Tabela create</h1>
-  <button mat-raised-button
-    id="btn-enviar"
-    (click)="enviarDados()">Enviar</button>
 </header>
+<div id="btn-enviar">
+
+  <button mat-raised-button
+    *ngIf="dataSource"
+    (click)="enviarDados()">Enviar</button>
+</div>
 
 <table mat-table
+  *ngIf="dataSource;else naoHaDados"
   [dataSource]="dataSource"
   class="mat-elevation-z8 ">
 
@@ -14,19 +18,23 @@
     sticky>
     <th mat-header-cell
       *matHeaderCellDef>
-      <mat-checkbox (change)="$event ? masterToggle() : null"
-        [checked]="selection?.hasValue() && isAllSelected()"
-        [indeterminate]="selection?.hasValue() && !isAllSelected()"
-        [aria-label]="checkboxLabel()">
-      </mat-checkbox>
+      <div class="checkbox-header">
+        <mat-checkbox (change)="$event ? masterToggle() : null"
+          [checked]="selection?.hasValue() && isAllSelected()"
+          [indeterminate]="selection?.hasValue() && !isAllSelected()"
+          [aria-label]="checkboxLabel()">
+        </mat-checkbox>
+      </div>
     </th>
     <td mat-cell
       *matCellDef="let row; let i = index">
-      <mat-checkbox (click)="alteraCnj(selection, row, i)"
-        (change)="$event ? selection.toggle(row) : null"
-        [checked]="selection.isSelected(row)"
-        [aria-label]="checkboxLabel(row)">
-      </mat-checkbox>
+      <div class="checkbox-header">
+        <mat-checkbox (click)="alteraCnj(selection, row, i)"
+          (change)="$event ? selection.toggle(row) : null"
+          [checked]="selection.isSelected(row)"
+          [aria-label]="checkboxLabel(row)">
+        </mat-checkbox>
+      </div>
     </td>
   </ng-container>
 
@@ -39,15 +47,6 @@
       *matCellDef="let element; let i = index">{{i+1}}</td>
   </ng-container>
 
-  <!-- CNJ Column -->
-  <ng-container matColumnDef="cnj"
-    sticky>
-    <th mat-header-cell
-      *matHeaderCellDef> CNJ </th>
-    <td mat-cell
-      *matCellDef="let element"> {{element.cnj}} </td>
-  </ng-container>
-
   <!-- Pre Cadastro Column -->
   <ng-container matColumnDef="cd_pre_cadastro"
     sticky>
@@ -57,6 +56,15 @@
       *matCellDef="let element"> {{element.cd_pre_cadastro}} </td>
   </ng-container>
 
+  <!-- CNJ Column -->
+  <ng-container matColumnDef="cnj"
+    sticky>
+    <th mat-header-cell
+      *matHeaderCellDef> CNJ </th>
+    <td mat-cell
+      *matCellDef="let element"> {{element.cnj}} </td>
+  </ng-container>
+
   <!-- Vara Column -->
   <ng-container matColumnDef="vara">
     <th mat-header-cell
@@ -64,9 +72,9 @@
     <td mat-cell
       *matCellDef="let element"
       contenteditable
-      [textContent]=""
+      [textContent]="element.vara"
       (input)="element.vara=$event.target.textContent">
-    </td>
+      {{element.vara}} </td>
   </ng-container>
 
   <!-- Forum Column -->
@@ -76,9 +84,9 @@
     <td mat-cell
       *matCellDef="let element"
       contenteditable
-      [textContent]=""
+      [textContent]="element.forum"
       (input)="element.forum=$event.target.textContent">
-    </td>
+      {{element.forum}} </td>
   </ng-container>
 
   <!-- UF Column -->
@@ -126,8 +134,9 @@
       *matHeaderCellDef> Eletronico </th>
     <td mat-cell
       *matCellDef="let element">
-      <mat-slide-toggle [checked]="true"
+      <mat-slide-toggle [checked]="element.eletronico"
         (change)="element.eletronico = !element.eletronico"> </mat-slide-toggle>
+      {{element.eletronico}}
     </td>
   </ng-container>
 
@@ -136,7 +145,16 @@
     <th mat-header-cell
       *matHeaderCellDef> Tipo Eletronico </th>
     <td mat-cell
-      *matCellDef="let element"> </td>
+      *matCellDef="let element">
+      <mat-form-field>
+        <select matNativeControl
+          (change)="element.tipo_eletronico=$event.target.value">
+          <option *ngFor="let tipoEletronico of tiposEletronicos"
+            [selected]="tipoEletronico.nome === element.tipo_eletronico"
+            [value]="tipoEletronico.nome">{{tipoEletronico.nome}}</option>
+        </select>
+      </mat-form-field>
+    </td>
   </ng-container>
 
   <!-- Audiencia Cadastro Column -->
@@ -145,7 +163,8 @@
       *matHeaderCellDef> Audiencia </th>
     <td mat-cell
       *matCellDef="let element">
-      <mat-slide-toggle [checked]="true"
+      {{element.audiencia}}
+      <mat-slide-toggle [checked]="element.audiencia"
         (change)="element.audiencia = !element.audiencia"> </mat-slide-toggle>
     </td>
   </ng-container>
@@ -157,8 +176,8 @@
     <td mat-cell
       *matCellDef="let element"
       contenteditable
-      [textContent]=""
-      (input)="element.data_audiencia=$event.target.textContent"></td>
+      [textContent]="element.data_audiencia"
+      (input)="element.data_audiencia=$event.target.textContent"> {{element.data_audiencia}} </td>
   </ng-container>
 
   <!-- Status Column -->
@@ -171,6 +190,7 @@
         <select matNativeControl
           (change)="element.status=$event.target.value">
           <option *ngFor="let status of statusArray"
+            [selected]="status ===  element.status"
             [value]="status">{{status}}</option>
         </select>
       </mat-form-field>
@@ -184,8 +204,8 @@
     <td mat-cell
       *matCellDef="let element"
       contenteditable
-      [textContent]=""
-      (input)="element.obs=$event.target.textContent"> </td>
+      [textContent]="element.obs"
+      (input)="element.obs=$event.target.textContent"> {{element.obs}} </td>
   </ng-container>
 
   <!-- Liminar Column -->
@@ -194,7 +214,8 @@
       *matHeaderCellDef> Liminar </th>
     <td mat-cell
       *matCellDef="let element">
-      <mat-slide-toggle [checked]="true"
+      {{element.liminar}}
+      <mat-slide-toggle [checked]="element.liminar"
         (change)="element.liminar = !element.liminar"> </mat-slide-toggle>
     </td>
   </ng-container>
@@ -206,8 +227,8 @@
     <td mat-cell
       *matCellDef="let element"
       contenteditable
-      [textContent]=""
-      (input)="element.teor=$event.target.textContent"> </td>
+      [textContent]="element.teor"
+      (input)="element.teor=$event.target.textContent"> {{element.teor}} </td>
   </ng-container>
 
   <!-- Possui Arquivo Column -->
@@ -216,7 +237,7 @@
       *matHeaderCellDef> Possui Arquivo </th>
     <td mat-cell
       *matCellDef="let element">
-      <mat-slide-toggle [checked]="false"
+      <mat-slide-toggle [checked]="element.possui_arquivos"
         (change)="element.possui_arquivos = !element.possui_arquivos"> </mat-slide-toggle>
     </td>
   </ng-container>
@@ -227,7 +248,7 @@
       *matHeaderCellDef> Segredo Justica </th>
     <td mat-cell
       *matCellDef="let element">
-      <mat-slide-toggle [checked]="false"
+      <mat-slide-toggle [checked]="element.segredo_justica"
         (change)="element.segredo_justica = !element.segredo_justica"> </mat-slide-toggle>
     </td>
   </ng-container>
@@ -238,3 +259,9 @@
     *matRowDef="let row; columns: displayedColumns;">
   </tr>
 </table>
+
+<ng-template #naoHaDados>
+  <p class="sem-dados">
+    Não há dados disponíveis!
+  </p>
+</ng-template>

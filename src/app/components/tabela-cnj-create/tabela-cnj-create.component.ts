@@ -8,6 +8,8 @@ import { EstadoService } from '../../services/estado.service';
 import { Estado } from '../../model/estado';
 import { AutoresComponent } from '../autores/autores.component';
 import { ReusComponent } from '../reus/reus.component';
+import { TipoEletronico } from '../../model/tipoEletronico';
+import { TipoEletronicoService } from '../../services/tipo-eletronico.service';
 
 @Component({
   selector: 'app-tabela-cnj-create',
@@ -16,28 +18,26 @@ import { ReusComponent } from '../reus/reus.component';
 })
 export class TabelaCnjCreateComponent implements OnInit {
   statusArray = ['OK', 'SJ', 'SC', 'NC'];
-  displayedColumns: string[] = ['select', 'position', 'cnj', 'cd_pre_cadastro',
+  displayedColumns: string[] = ['select', 'position', 'cd_pre_cadastro', 'cnj',
     'vara', 'forum', 'uf', 'autores', 'reus', 'eletronico', 'tipo_eletronico', 'audiencia',
     'data_audiencia', 'status', 'obs', 'liminar', 'teor', 'possui_arquivos', 'segredo_justica'];
 
   public dataSource;
   public selection;
   public estados: Estado[];
+  public tiposEletronicos: TipoEletronico[];
   public arrayIndexCnjAlterados = [];
-  public enviarArrayCnj = [];
+  public dados;
 
 
   constructor(private http: HttpClient, private estadoService: EstadoService,
+    private tipoEletronicoService: TipoEletronicoService,
     public dialog: MatDialog, private snackBar: MatSnackBar) {
-    this.http.get('https://pacific-basin-23024.herokuapp.com/insert/read-cnjs')
-      .subscribe((resp: DataCNJ) => {
-        this.dataSource = new MatTableDataSource<CNJ>(resp.data);
-        this.selection = new SelectionModel<CNJ>(true, []);
-      }, error => {
-        console.log(error);
-      });
 
+
+    this.obterDadosDoServidor();
     this.estados = this.estadoService.getEstados();
+    this.tiposEletronicos = this.tipoEletronicoService.getTiposEletronico();
   }
 
   ngOnInit() {
@@ -78,38 +78,44 @@ export class TabelaCnjCreateComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
-  montaDados(index) {
-    this.enviarArrayCnj.push({
-      cnj: this.dataSource.data[index].cnj,
-      cd_pre_cadastro: this.dataSource.data[index].cd_pre_cadastro,
-      vara: this.dataSource.data[index].vara,
-      forum: this.dataSource.data[index].forum,
-      uf: this.dataSource.data[index].uf,
-      eletronico: this.dataSource.data[index].eletronico,
-      tipo_eletronico: this.dataSource.data[index].tipo_eletronico,
-      audiencia: this.dataSource.data[index].audiencia,
-      data_audiencia: this.dataSource.data[index].data_audiencia,
-      liminar: this.dataSource.data[index].liminar,
-      teor: this.dataSource.data[index].teor,
-      possui_arquivos: this.dataSource.data[index].possui_arquivos,
-      segredo_justica: this.dataSource.data[index].segredo_justica,
-      status: this.dataSource.data[index].status,
-      obs: this.dataSource.data[index].obs,
-      partes_autoras: this.dataSource.data[index].partes_autoras,
-      partes_re: this.dataSource.data[index].partes_re,
-      linha_alterada: true
+  montaDados(resp) {
+    this.dados = [];
+
+    resp.forEach(elem => {
+      this.dados.push({
+        cnj: elem.cnj,
+        cd_pre_cadastro: elem.cd_pre_cadastro,
+        vara: '',
+        forum: '',
+        uf: elem.trib_type_state,
+        eletronico: true,
+        tipo_eletronico: 'ESAJ',
+        audiencia: true,
+        data_audiencia: '',
+        liminar: true,
+        teor: '',
+        possui_arquivos: false,
+        segredo_justica: false,
+        status: 'Ok',
+        obs: '',
+        partes_autoras: [],
+        partes_re: []
+      });
     });
+
+    return this.dados;
   }
 
   enviarDados() {
-    this.enviarArrayCnj = [];
+    let enviarArrayCnj = [];
 
-    for (let linha = 0; linha < this.dataSource.data.length; linha++) {
-      this.montaDados(linha);
-    }
+    this.arrayIndexCnjAlterados.forEach(linha =>
+      enviarArrayCnj.push(this.dados[linha])
+    );
 
-    this.metodoPOST(this.enviarArrayCnj);
+    this.metodoPOST(enviarArrayCnj);
   }
+
 
   metodoPOST(dados) {
     let headers = new HttpHeaders({
@@ -122,15 +128,27 @@ export class TabelaCnjCreateComponent implements OnInit {
 
     this.http.post('https://pacific-basin-23024.herokuapp.com/insert/create-cnjs', dados, options)
       .subscribe(data => {
-        // console.log(data);
         this.snackBar.open("Dados enviados com sucesso!", undefined, {
           duration: 5000,
         });
+
+        // location.reload();
+
       }, error => {
-        // console.log(error.status);
+        console.log(error);
         this.snackBar.open("Dados não foram enviados. Por favor, tente mais tarde!", undefined, {
           duration: 5000,
         });
+      });
+  }
+
+  obterDadosDoServidor() {
+    this.http.get('https://pacific-basin-23024.herokuapp.com/insert/read-cnjs')
+      .subscribe((resp: DataCNJ) => {
+        this.dataSource = new MatTableDataSource<CNJ>(this.montaDados(resp.data));
+        this.selection = new SelectionModel<CNJ>(true, []);
+      }, error => {
+        console.log(error);
       });
   }
 
@@ -148,7 +166,7 @@ export class TabelaCnjCreateComponent implements OnInit {
     const dialogRef = this.dialog.open(AutoresComponent, {
       height: '400px',
       width: '600px',
-      data: [],
+      data: this.dataSource.data[row].partes_autoras,
       disableClose: true
     });
   }
@@ -157,7 +175,7 @@ export class TabelaCnjCreateComponent implements OnInit {
     const dialogRef = this.dialog.open(ReusComponent, {
       height: '400px',
       width: '600px',
-      data: [],
+      data: this.dataSource.data[row].partes_re,
       disableClose: true
     });
   }

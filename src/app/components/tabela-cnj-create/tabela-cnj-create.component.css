@@ -6,8 +6,11 @@ header {
 }
 
 #btn-enviar {
-  position: absolute;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
   right: 0.9vw;
+  margin-bottom: 20px;
 }
 
 table {
@@ -19,33 +22,41 @@ table {
   margin-bottom: 20px; 
 }
 
-td:nth-child(1){
+.checkbox-header{
+  width: 17px;
+}
+
+td:nth-child(1),
+td:nth-child(2),
+td:nth-child(3),
+td:nth-child(4) {
   z-index: 3 !important;
 }
 
-td:nth-child(2), th:nth-child(2) {  
-  z-index: 3 !important;
-  left: 60px !important;
+td:nth-child(1), td:nth-child(2), td:nth-child(3), td:nth-child(4) {
+  background-color: rgba(62,68,74);
+  color: #fff;
 }
 
 th.mat-header-cell {
   font-weight: bold;
   font-size: 17px;
-  background-color: rgba(62,68,74);
+  background-color: rgba(62,68,74);;
   color: #fff;
 }
 
 .mat-row:nth-child(odd){
   background-color: rgba(242,242,242);
 }
-  
+
 td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
   padding: 20px;
 }
 
-.alterado {
-  color: blue;
-  font-weight: bold;
+.sem-dados {
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 /deep/ .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
@@ -78,4 +89,13 @@ td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
 
 /deep/ .mat-slide-toggle.mat-accent.alterado .mat-slide-toggle-bar {
   background-color: rgba(0, 0, 255, 0.54);
+}
+
+/deep/ div.mat-checkbox-frame { 
+  border-color: #fff; 
+}
+
+/deep/ .mat-simple-snackbar {
+  font-weight: bold;
+  font-size: 18px;
 }
