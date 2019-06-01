@@ -2,20 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource, MatDialog, MatSnackBar } from '@angular/material';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { CNJ } from '../model/cnj';
-import { DataCNJ } from '../model/dataCnj';
-import { EstadoService } from '../services/estado.service';
-import { Estado } from '../model/estado';
+import { CNJ } from '../../model/cnj';
+import { DataCNJ } from '../../model/dataCnj';
+import { EstadoService } from '../../services/estado.service';
+import { Estado } from '../../model/estado';
 import { AutoresComponent } from '../autores/autores.component';
 import { ReusComponent } from '../reus/reus.component';
 
-
 @Component({
-  selector: 'app-tabela-cnj',
-  templateUrl: './tabela-cnj.component.html',
-  styleUrls: ['./tabela-cnj.component.css']
+  selector: 'app-tabela-cnj-create',
+  templateUrl: './tabela-cnj-create.component.html',
+  styleUrls: ['./tabela-cnj-create.component.css']
 })
-export class TabelaCnjComponent implements OnInit {
+export class TabelaCnjCreateComponent implements OnInit {
   statusArray = ['OK', 'SJ', 'SC', 'NC'];
   displayedColumns: string[] = ['select', 'position', 'cnj', 'cd_pre_cadastro',
     'vara', 'forum', 'uf', 'autores', 'reus', 'eletronico', 'tipo_eletronico', 'audiencia',
@@ -26,15 +25,14 @@ export class TabelaCnjComponent implements OnInit {
   public estados: Estado[];
   public arrayIndexCnjAlterados = [];
   public enviarArrayCnj = [];
-  public coresBotao = [];
+
 
   constructor(private http: HttpClient, private estadoService: EstadoService,
     public dialog: MatDialog, private snackBar: MatSnackBar) {
-    this.http.get('https://pacific-basin-23024.herokuapp.com/update/in-process')
+    this.http.get('https://pacific-basin-23024.herokuapp.com/insert/read-cnjs')
       .subscribe((resp: DataCNJ) => {
         this.dataSource = new MatTableDataSource<CNJ>(resp.data);
         this.selection = new SelectionModel<CNJ>(true, []);
-        this.inicializaCorBotaoConsulta();
       }, error => {
         console.log(error);
       });
@@ -107,18 +105,10 @@ export class TabelaCnjComponent implements OnInit {
     this.enviarArrayCnj = [];
 
     for (let linha = 0; linha < this.dataSource.data.length; linha++) {
-      if (this.arrayIndexCnjAlterados.includes(linha)) {
-        this.montaDados(linha);
-      } else {
-        this.enviarArrayCnj.push({
-          cnj: this.dataSource.data[linha].cnj,
-          cd_pre_cadastro: this.dataSource.data[linha].cd_pre_cadastro,
-          linha_alterada: false
-        });
-      }
+      this.montaDados(linha);
     }
 
-    this.metodoPOST(this.enviarArrayCnj)
+    this.metodoPOST(this.enviarArrayCnj);
   }
 
   metodoPOST(dados) {
@@ -130,7 +120,7 @@ export class TabelaCnjComponent implements OnInit {
       headers: headers
     };
 
-    this.http.post('https://pacific-basin-23024.herokuapp.com/update/send-altered-cnjs', dados, options)
+    this.http.post('https://pacific-basin-23024.herokuapp.com/insert/create-cnjs', dados, options)
       .subscribe(data => {
         // console.log(data);
         this.snackBar.open("Dados enviados com sucesso!", undefined, {
@@ -158,7 +148,7 @@ export class TabelaCnjComponent implements OnInit {
     const dialogRef = this.dialog.open(AutoresComponent, {
       height: '400px',
       width: '600px',
-      data: this.dataSource.data[row].partes_autoras,
+      data: [],
       disableClose: true
     });
   }
@@ -167,32 +157,8 @@ export class TabelaCnjComponent implements OnInit {
     const dialogRef = this.dialog.open(ReusComponent, {
       height: '400px',
       width: '600px',
-      data: this.dataSource.data[row].partes_re,
+      data: [],
       disableClose: true
-    });
-  }
-
-  inicializaCorBotaoConsulta() {
-    this.dataSource.data.forEach(linhaTabela => {
-      let btnAutorColor = '';
-      let btnReuColor = '';
-
-      linhaTabela.partes_autoras.forEach(autor => {
-        if (autor.nome_alterado || autor.numero_documento_alterado || autor.tipo_partes_alterado) {
-          btnAutorColor = 'primary';
-        }
-      });
-
-      linhaTabela.partes_re.forEach(reu => {
-        if (reu.nome_alterado || reu.numero_documento_alterado || reu.tipo_partes_alterado) {
-          btnReuColor = 'primary';
-        }
-      });
-
-      this.coresBotao.push({
-        btnAutorColor: btnAutorColor,
-        btnReuColor: btnReuColor,
-      });
     });
   }
 }

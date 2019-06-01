@@ -1,17 +1,16 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatSnackBar, MatBottomSheet } from '@angular/material';
-import { Partes } from '../model/partes';
+import { Partes } from '../../model/partes';
 import { ConfirmaRemocaoComponent } from '../confirma-remocao/confirma-remocao.component';
 
 @Component({
-  selector: 'app-reus',
-  templateUrl: './reus.component.html',
-  styleUrls: ['./reus.component.css']
+  selector: 'app-autores',
+  templateUrl: './autores.component.html',
+  styleUrls: ['./autores.component.css']
 })
-export class ReusComponent implements OnInit {
+export class AutoresComponent implements OnInit {
 
-
-  constructor(public dialogRef: MatDialogRef<ReusComponent>,
+  constructor(public dialogRef: MatDialogRef<AutoresComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Partes[],
     private snackBar: MatSnackBar,
     private bottomSheet: MatBottomSheet
@@ -19,17 +18,17 @@ export class ReusComponent implements OnInit {
 
   ngOnInit() {
     if (this.data.length === 0) {
-      this.novoReu();
+      this.novoAutor();
     }
   }
 
-  adicionarReu() {
+  adicionarAutor() {
     if (this.data[this.data.length - 1].nome !== '') {
-      this.novoReu();
+      this.novoAutor();
     }
   }
 
-  removerReu(tipo_parte, index) {
+  removerAutor(tipo_parte, index) {
     let sheetRef = this.bottomSheet.open(ConfirmaRemocaoComponent, {
       data: tipo_parte
     });
@@ -40,24 +39,24 @@ export class ReusComponent implements OnInit {
 
         // se todos os inputs forem removidos, deixar um input vazio
         if (this.data.length === 0) {
-          this.novoReu();
+          this.novoAutor();
         }
       }
     });
   }
 
-  novoReu() {
+  novoAutor() {
     this.data.push({
       nome: '',
       nome_alterado: false,
       numero_documento: '',
       numero_documento_alterado: false,
-      tipo_partes: 'reu',
+      tipo_partes: 'autor',
       tipo_partes_alterado: false,
     });
   }
 
-  salvarReus() {
+  salvarAutores() {
     // se o último elemento da lista for vazio, remove-o antes de enviar para o backend
     if (this.data[this.data.length - 1].nome === '') {
       this.data.splice(this.data.length - 1, 1);

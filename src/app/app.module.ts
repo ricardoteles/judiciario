@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TabelaCnjComponent } from './tabela-cnj/tabela-cnj.component';
 import {
     MatTableModule,
     MatCheckboxModule,
@@ -20,18 +19,19 @@ import {
     MatSnackBarModule,
     MatBottomSheetModule
 } from '@angular/material';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { EstadoService } from './services/estado.service';
-import { AutoresComponent } from './autores/autores.component';
-import { ReusComponent } from './reus/reus.component';
-import { FormsModule } from '@angular/forms';
-import { TabelaCnjCreateComponent } from './tabela-cnj-create/tabela-cnj-create.component';
-import { ConfirmaRemocaoComponent } from './confirma-remocao/confirma-remocao.component';
+import { AutoresComponent } from './components/autores/autores.component';
+import { ReusComponent } from './components/reus/reus.component';
+import { TabelaCnjUpdateComponent } from './components/tabela-cnj-update/tabela-cnj-update.component';
+import { TabelaCnjCreateComponent } from './components/tabela-cnj-create/tabela-cnj-create.component';
+import { ConfirmaRemocaoComponent } from './components/confirma-remocao/confirma-remocao.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        TabelaCnjComponent,
+        TabelaCnjUpdateComponent,
         AutoresComponent,
         ReusComponent,
         TabelaCnjCreateComponent,

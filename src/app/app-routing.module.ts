@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TabelaCnjCreateComponent } from './tabela-cnj-create/tabela-cnj-create.component';
-import { TabelaCnjComponent } from './tabela-cnj/tabela-cnj.component';
+import { TabelaCnjCreateComponent } from './components/tabela-cnj-create/tabela-cnj-create.component';
+import { TabelaCnjUpdateComponent } from './components/tabela-cnj-update/tabela-cnj-update.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/update', pathMatch: 'full' },
-  { path: 'update', component: TabelaCnjComponent },
+  { path: 'update', component: TabelaCnjUpdateComponent },
   { path: 'create', component: TabelaCnjCreateComponent }
 ];
 

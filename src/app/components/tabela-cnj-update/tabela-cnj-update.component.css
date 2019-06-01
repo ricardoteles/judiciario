@@ -6,8 +6,11 @@ header {
 }
 
 #btn-enviar {
-  position: absolute;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
   right: 0.9vw;
+  margin-bottom: 20px;
 }
 
 table {
@@ -19,23 +22,15 @@ table {
   margin-bottom: 20px; 
 }
 
-td:nth-child(1){
-  z-index: 3 !important;
+.checkbox-header{
+  width: 17px;
 }
 
-td:nth-child(2), th:nth-child(2) {  
+td:nth-child(1),
+td:nth-child(2),
+td:nth-child(3),
+td:nth-child(4) {
   z-index: 3 !important;
-  left: 60px !important;
-}
-
-td:nth-child(3), th:nth-child(3) {  
-  z-index: 3 !important;
-  left: 127px !important;
-}
-
-td:nth-child(4), th:nth-child(4) {  
-  z-index: 3 !important;
-  left: 343px !important;
 }
 
 td:nth-child(1), td:nth-child(2), td:nth-child(3), td:nth-child(4) {
@@ -47,7 +42,6 @@ th.mat-header-cell {
   font-weight: bold;
   font-size: 17px;
   background-color: rgba(62,68,74);;
-  /* background-color: orange; */
   color: #fff;
 }
 

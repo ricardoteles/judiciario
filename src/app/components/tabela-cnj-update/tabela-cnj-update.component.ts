@@ -2,42 +2,43 @@ import { Component, OnInit } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource, MatDialog, MatSnackBar } from '@angular/material';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { CNJ } from '../model/cnj';
-import { DataCNJ } from '../model/dataCnj';
-import { EstadoService } from '../services/estado.service';
-import { Estado } from '../model/estado';
+import { CNJ } from '../../model/cnj';
+import { DataCNJ } from '../../model/dataCnj';
+import { EstadoService } from '../../services/estado.service';
+import { Estado } from '../../model/estado';
+import { TipoEletronicoService } from '../../services/tipo-eletronico.service';
+import { TipoEletronico } from '../../model/tipoEletronico';
 import { AutoresComponent } from '../autores/autores.component';
 import { ReusComponent } from '../reus/reus.component';
 
+
 @Component({
-  selector: 'app-tabela-cnj-create',
-  templateUrl: './tabela-cnj-create.component.html',
-  styleUrls: ['./tabela-cnj-create.component.css']
+  selector: 'app-tabela-cnj-update',
+  templateUrl: './tabela-cnj-update.component.html',
+  styleUrls: ['./tabela-cnj-update.component.css']
 })
-export class TabelaCnjCreateComponent implements OnInit {
+export class TabelaCnjUpdateComponent implements OnInit {
   statusArray = ['OK', 'SJ', 'SC', 'NC'];
-  displayedColumns: string[] = ['select', 'position', 'cnj', 'cd_pre_cadastro',
+  displayedColumns: string[] = ['select', 'position', 'cd_pre_cadastro', 'cnj',
     'vara', 'forum', 'uf', 'autores', 'reus', 'eletronico', 'tipo_eletronico', 'audiencia',
     'data_audiencia', 'status', 'obs', 'liminar', 'teor', 'possui_arquivos', 'segredo_justica'];
 
   public dataSource;
+  public dataSourceOriginal;
   public selection;
   public estados: Estado[];
+  public tiposEletronicos: TipoEletronico[];
   public arrayIndexCnjAlterados = [];
   public enviarArrayCnj = [];
-
+  public coresBotao = [];
 
   constructor(private http: HttpClient, private estadoService: EstadoService,
+    private tipoEletronicoService: TipoEletronicoService,
     public dialog: MatDialog, private snackBar: MatSnackBar) {
-    this.http.get('https://pacific-basin-23024.herokuapp.com/update/in-process')
-      .subscribe((resp: DataCNJ) => {
-        this.dataSource = new MatTableDataSource<CNJ>(resp.data);
-        this.selection = new SelectionModel<CNJ>(true, []);
-      }, error => {
-        console.log(error);
-      });
 
+    this.obterDadosDoServidor();
     this.estados = this.estadoService.getEstados();
+    this.tiposEletronicos = this.tipoEletronicoService.getTiposEletronico();
   }
 
   ngOnInit() {
@@ -105,10 +106,18 @@ export class TabelaCnjCreateComponent implements OnInit {
     this.enviarArrayCnj = [];
 
     for (let linha = 0; linha < this.dataSource.data.length; linha++) {
-      this.montaDados(linha);
+      if (this.arrayIndexCnjAlterados.includes(linha)) {
+        this.montaDados(linha);
+      } else {
+        this.enviarArrayCnj.push({
+          cnj: this.dataSource.data[linha].cnj,
+          cd_pre_cadastro: this.dataSource.data[linha].cd_pre_cadastro,
+          linha_alterada: false
+        });
+      }
     }
 
-    this.metodoPOST(this.enviarArrayCnj)
+    this.metodoPOST({ "data": this.enviarArrayCnj });
   }
 
   metodoPOST(dados) {
@@ -122,15 +131,29 @@ export class TabelaCnjCreateComponent implements OnInit {
 
     this.http.post('https://pacific-basin-23024.herokuapp.com/update/send-altered-cnjs', dados, options)
       .subscribe(data => {
-        // console.log(data);
         this.snackBar.open("Dados enviados com sucesso!", undefined, {
           duration: 5000,
         });
+
+        this.obterDadosDoServidor();
+
       }, error => {
-        // console.log(error.status);
+        console.log(error);
         this.snackBar.open("Dados não foram enviados. Por favor, tente mais tarde!", undefined, {
           duration: 5000,
         });
+      });
+  }
+
+  obterDadosDoServidor() {
+    this.http.get('https://pacific-basin-23024.herokuapp.com/update/in-process')
+      .subscribe((resp: DataCNJ) => {
+        this.dataSource = new MatTableDataSource<CNJ>(resp.data);
+        this.dataSourceOriginal = JSON.parse(JSON.stringify(this.dataSource.data));
+        this.selection = new SelectionModel<CNJ>(true, []);
+        this.inicializaCorBotaoConsulta();
+      }, error => {
+        console.log(error);
       });
   }
 
@@ -148,7 +171,7 @@ export class TabelaCnjCreateComponent implements OnInit {
     const dialogRef = this.dialog.open(AutoresComponent, {
       height: '400px',
       width: '600px',
-      data: [],
+      data: this.dataSource.data[row].partes_autoras,
       disableClose: true
     });
   }
@@ -157,8 +180,32 @@ export class TabelaCnjCreateComponent implements OnInit {
     const dialogRef = this.dialog.open(ReusComponent, {
       height: '400px',
       width: '600px',
-      data: [],
+      data: this.dataSource.data[row].partes_re,
       disableClose: true
+    });
+  }
+
+  inicializaCorBotaoConsulta() {
+    this.dataSource.data.forEach(linhaTabela => {
+      let btnAutorColor = '';
+      let btnReuColor = '';
+
+      linhaTabela.partes_autoras.forEach(autor => {
+        if (autor.nome_alterado || autor.numero_documento_alterado || autor.tipo_partes_alterado) {
+          btnAutorColor = 'primary';
+        }
+      });
+
+      linhaTabela.partes_re.forEach(reu => {
+        if (reu.nome_alterado || reu.numero_documento_alterado || reu.tipo_partes_alterado) {
+          btnReuColor = 'primary';
+        }
+      });
+
+      this.coresBotao.push({
+        btnAutorColor: btnAutorColor,
+        btnReuColor: btnReuColor,
+      });
     });
   }
 }
