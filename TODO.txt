@@ -24,6 +24,10 @@ Criticos
 
 [ok] (bug) arrumar o branco no head da tabela
 [ok] fazer o tipo eletrônico [E-SAJ, Projudi, Pje, Themis, Tucujuris,  outros, TRE-(sigla dos estados), TRF-1, TRF-3, TRT-1 ao TRT-24]
-[testar] substituir os endpoints da tabela create
-[  ] arrumar a tabela create
+[ok] substituir os endpoints da tabela create
+[ok] arrumar a tabela create
 [  ] ao adicionar reus/autores scroll fica no fim da tela
+
+[ok] mudar a cor de fundo do checkbox
+[ok] fixar a largura da coluna teor
+[ok] fixar o tipo eletronico como default 'selecione um tipo'

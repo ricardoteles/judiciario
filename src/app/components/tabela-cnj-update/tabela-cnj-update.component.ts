@@ -31,6 +31,7 @@ export class TabelaCnjUpdateComponent implements OnInit {
   public arrayIndexCnjAlterados = [];
   public enviarArrayCnj = [];
   public coresBotao = [];
+  public carregouPagina = false;
 
   constructor(private http: HttpClient, private estadoService: EstadoService,
     private tipoEletronicoService: TipoEletronicoService,
@@ -155,6 +156,7 @@ export class TabelaCnjUpdateComponent implements OnInit {
         }
 
         this.selection = new SelectionModel<CNJ>(true, []);
+        this.carregouPagina = true;
         this.inicializaCorBotaoConsulta();
       }, error => {
         console.log(error);

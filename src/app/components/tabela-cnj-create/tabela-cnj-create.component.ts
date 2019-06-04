@@ -28,6 +28,7 @@ export class TabelaCnjCreateComponent implements OnInit {
   public tiposEletronicos: TipoEletronico[];
   public arrayIndexCnjAlterados = [];
   public dados;
+  public carregouPagina = false;
 
 
   constructor(private http: HttpClient, private estadoService: EstadoService,
@@ -87,9 +88,9 @@ export class TabelaCnjCreateComponent implements OnInit {
         cd_pre_cadastro: elem.cd_pre_cadastro,
         vara: '',
         forum: '',
-        uf: elem.trib_type_state,
+        uf: elem.uf,
         eletronico: true,
-        tipo_eletronico: 'ESAJ',
+        tipo_eletronico: '',
         audiencia: true,
         data_audiencia: '',
         liminar: true,
@@ -113,7 +114,7 @@ export class TabelaCnjCreateComponent implements OnInit {
       enviarArrayCnj.push(this.dados[linha])
     );
 
-    this.metodoPOST(enviarArrayCnj);
+    this.metodoPOST({ "data": enviarArrayCnj });
   }
 
 
@@ -132,7 +133,7 @@ export class TabelaCnjCreateComponent implements OnInit {
           duration: 5000,
         });
 
-        // location.reload();
+        location.reload();
 
       }, error => {
         console.log(error);
@@ -147,6 +148,7 @@ export class TabelaCnjCreateComponent implements OnInit {
       .subscribe((resp: DataCNJ) => {
         this.dataSource = new MatTableDataSource<CNJ>(this.montaDados(resp.data));
         this.selection = new SelectionModel<CNJ>(true, []);
+        this.carregouPagina = true;
       }, error => {
         console.log(error);
       });

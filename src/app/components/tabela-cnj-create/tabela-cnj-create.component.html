@@ -9,7 +9,7 @@
 </div>
 
 <table mat-table
-  *ngIf="dataSource;else naoHaDados"
+  *ngIf="carregouPagina && dataSource"
   [dataSource]="dataSource"
   class="mat-elevation-z8 ">
 
@@ -19,7 +19,8 @@
     <th mat-header-cell
       *matHeaderCellDef>
       <div class="checkbox-header">
-        <mat-checkbox (change)="$event ? masterToggle() : null"
+        <mat-checkbox color="warn"
+          (change)="$event ? masterToggle() : null"
           [checked]="selection?.hasValue() && isAllSelected()"
           [indeterminate]="selection?.hasValue() && !isAllSelected()"
           [aria-label]="checkboxLabel()">
@@ -29,7 +30,8 @@
     <td mat-cell
       *matCellDef="let row; let i = index">
       <div class="checkbox-header">
-        <mat-checkbox (click)="alteraCnj(selection, row, i)"
+        <mat-checkbox color="warn"
+          (click)="alteraCnj(selection, row, i)"
           (change)="$event ? selection.toggle(row) : null"
           [checked]="selection.isSelected(row)"
           [aria-label]="checkboxLabel(row)">
@@ -136,7 +138,6 @@
       *matCellDef="let element">
       <mat-slide-toggle [checked]="element.eletronico"
         (change)="element.eletronico = !element.eletronico"> </mat-slide-toggle>
-      {{element.eletronico}}
     </td>
   </ng-container>
 
@@ -149,8 +150,8 @@
       <mat-form-field>
         <select matNativeControl
           (change)="element.tipo_eletronico=$event.target.value">
+          <option>Selecione um tipo</option>
           <option *ngFor="let tipoEletronico of tiposEletronicos"
-            [selected]="tipoEletronico.nome === element.tipo_eletronico"
             [value]="tipoEletronico.nome">{{tipoEletronico.nome}}</option>
         </select>
       </mat-form-field>
@@ -163,7 +164,6 @@
       *matHeaderCellDef> Audiencia </th>
     <td mat-cell
       *matCellDef="let element">
-      {{element.audiencia}}
       <mat-slide-toggle [checked]="element.audiencia"
         (change)="element.audiencia = !element.audiencia"> </mat-slide-toggle>
     </td>
@@ -225,6 +225,7 @@
     <th mat-header-cell
       *matHeaderCellDef> Teor </th>
     <td mat-cell
+      class="teor-column"
       *matCellDef="let element"
       contenteditable
       [textContent]="element.teor"
@@ -260,8 +261,8 @@
   </tr>
 </table>
 
-<ng-template #naoHaDados>
+<div *ngIf="carregouPagina && !dataSource">
   <p class="sem-dados">
     Não há dados disponíveis!
   </p>
-</ng-template>
+</div>

@@ -9,7 +9,7 @@
   <div *ngFor="let autor of data; let i = index">
     <mat-form-field appearance="outline">
       <input matInput
-        placeholder="Digite o nome do réu"
+        placeholder="Digite o nome do autor"
         [ngClass]="{'alterado': autor.nome_alterado }"
         [(ngModel)]="autor.nome">
     </mat-form-field>

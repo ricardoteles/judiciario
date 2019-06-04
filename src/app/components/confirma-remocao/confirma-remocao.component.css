@@ -13,7 +13,7 @@ button {
     margin-left: 5px;
 }
 
-/deep/ .mat-bottom-sheet-container {
+::ng-deep .mat-bottom-sheet-container {
     padding: 0 !important;
     background-color: rgba(62,68,74);
 }
